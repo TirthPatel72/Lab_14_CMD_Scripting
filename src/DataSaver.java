@@ -1,15 +1,49 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class DataSaver {
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
+        ArrayList<String> records = new ArrayList<>();
+        int idCounter = 1;
+
+        boolean more = true;
+        while (more) {
+            System.out.print("First Name: ");
+            String first = in.nextLine();
+
+            System.out.print("Last Name: ");
+            String last = in.nextLine();
+
+            String id = String.format("%06d", idCounter++);
+
+            System.out.print("Email: ");
+            String email = in.nextLine();
+
+            System.out.print("Year of Birth: ");
+            String yob = in.nextLine();
+
+            String record = String.join(", ", first, last, id, email, yob);
+            records.add(record);
+
+            System.out.print("Add another record? (Y/N): ");
+            more = in.nextLine().equalsIgnoreCase("Y");
+        }
+
+        System.out.print("Enter filename to save (e.g., data.csv): ");
+        String filename = in.nextLine();
+
+        try (FileWriter writer = new FileWriter("src/" + filename)) {
+            for (String rec : records) {
+                writer.write(rec + "\n");
+            }
+
+            System.out.println("Data saved to src/" + filename);
+        } catch (IOException e) {
+            System.out.println("Error writing file: " + e.getMessage());
         }
     }
 }

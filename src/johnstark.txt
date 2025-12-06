@@ -1,1 +1,0 @@
-john, stark, 000001, johnstark@gmail.com, 1997
